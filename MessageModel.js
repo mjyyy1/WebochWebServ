@@ -6,3 +6,13 @@ const messageSchema = new mongoose.Schema({
 });
 
 const Message = mongoose.model('Message', messageSchema);
+
+
+exports.createMessage = (inMail, inText) => {
+    var message = new Message({
+        email: inMail,
+        text: inText
+    })
+
+    return message
+}
