@@ -4,6 +4,7 @@ const express = require('express')
 const dbModule = require('./dBModule')
 //Inkludera MessageModel för att kunna spara meddelanden i databasen 
 const MessageModel = require('./MessageModel')
+const UserModel = require('./PersonPorfModel')
 //Gör en instans klassen express
 const app = express()
 //Ange porten som servern kommer att lyssna på.
@@ -16,6 +17,11 @@ app.use(express.static(staticDir))
 //Sätt upp servern så att den kan tyda json och urlencoded
 app.use(express.json())
 app.use(express.urlencoded())
+
+
+
+
+
 
 //Ställ in EJS som vymotor för servern. 
 app.set('view engine' , 'ejs')
@@ -32,9 +38,38 @@ app.post('/', function (req, res) {
     const message = MessageModel.createMessage(req.body.email, req.body.message)
     //spara elementet Message i databasen
     dbModule.storeElement(message)
-
     //Omdirigera klienten till huvudsidan
     res.redirect('/')
+})
+
+
+app.get('/Register.ejs', (req, res) => {
+  res.render('\Register.ejs');
+ })
+
+ app.post('/Register.ejs', function (req, res) {
+
+  const User = UserModel.createUser(req.body.email, req.body.password)
+
+  dbModule.storeElement(User)
+
+  res.redirect('/')
+})
+
+app.get('/SignIn.ejs', (req, res) => {
+  res.render('\SignIn.ejs');
+ })
+
+ app.post('/SignIn.ejs', function (req, res) {
+
+  const User = UserModel.createUser(req.body.email, req.body.password)
+
+  dbModule.storeElement(User)
+  
+  app.get('/chat.ejs', (req, res) => {
+    res.render('\chat.ejs');
+   })
+  res.redirect('/chat.ejs')
 })
 
 //Sätt igång servern så att den kan ta emot requests på vald port.
