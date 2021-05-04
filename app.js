@@ -63,6 +63,7 @@ app.get('/SignIn.ejs', (req, res) => {
  app.post('/SignIn.ejs', function (req, res) {
 
   const User = UserModel.createUser(req.body.email, req.body.password)
+  const User = UserModel.createUser(req.body.email, req.body.password)
 
   dbModule.storeElement(User)
   
